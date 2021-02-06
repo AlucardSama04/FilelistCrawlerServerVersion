@@ -122,7 +122,7 @@ public class RunThread extends Thread implements Runnable
 			Logger.log("Connection to The Torrent Client successfull");
 			if (loginwithusername)
 			{
-				Logger.log("Logging into Filelist.ro with username and password");
+				Logger.log("Logging into filelist.io with username and password");
 				 if (FLloginProcedure()==true)
 				 {
 					 Logger.log("Logged in!");
@@ -130,7 +130,7 @@ public class RunThread extends Thread implements Runnable
 			}
 			else
 			{
-				Logger.log("Logging into Filelist.ro with cookies.");
+				Logger.log("Logging into filelist.io with cookies.");
 			}
 			
 			//////LOADING SAVED STATISTICS///////////
@@ -172,7 +172,7 @@ public class RunThread extends Thread implements Runnable
 					saveman.setKey("fl", fl+"");
 					saveman.setKey("usernamepassword", "false");
 					
-					Logger.log("Got cookies from Filelist.ro. Will use those instead next time.");
+					Logger.log("Got cookies from filelist.io. Will use those instead next time.");
 					
 	//				Utils.saveData(mainInstance, saveman);
 					
@@ -341,9 +341,11 @@ public class RunThread extends Thread implements Runnable
 	/////////////////////////////////////
 	public List<String> getCFDUID() throws Exception
 	{
-		String request        = "https://filelist.ro/login.php";
+		String request        = "https://filelist.io/login.php";
 		URL    url            = new URL( request );
-		HttpsURLConnection conn= (HttpsURLConnection) url.openConnection();           
+		HttpsURLConnection conn= (HttpsURLConnection) url.openConnection();    
+		conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
+		conn.setFollowRedirects(true);
 		conn.setDoOutput( true );
 		conn.setInstanceFollowRedirects( false );
 		conn.setRequestMethod( "GET" );
@@ -396,9 +398,11 @@ public class RunThread extends Thread implements Runnable
 		}
 		byte[] postData       = urlParameters.getBytes( StandardCharsets.UTF_8 );
 		int    postDataLength = postData.length;
-		String request        = "https://filelist.ro/takelogin.php";
+		String request        = "https://filelist.io/takelogin.php";
 		URL    url            = new URL( request );
 		HttpsURLConnection conn= (HttpsURLConnection) url.openConnection();    
+		conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
+		conn.setFollowRedirects(true);
 		conn.setDoOutput( true );
 		conn.setInstanceFollowRedirects( false );
 		conn.setRequestMethod( "POST" );
@@ -416,9 +420,11 @@ public class RunThread extends Thread implements Runnable
 	}
 	public String getBrowsePage(String cfduidtmp,String passtmp,String phpsessidtmp,String uidtmp, String fl2) throws Exception
 	{
-		String request        = "https://filelist.ro/browse.php";
+		String request        = "https://filelist.io/browse.php";
 		URL    url            = new URL( request );
-		HttpsURLConnection conn= (HttpsURLConnection) url.openConnection();    
+		HttpsURLConnection conn= (HttpsURLConnection) url.openConnection();
+		conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
+		conn.setFollowRedirects(true);
 		conn.setDoOutput( true );
 		conn.setInstanceFollowRedirects( false );
 		conn.setRequestMethod( "POST" );
@@ -442,7 +448,7 @@ public class RunThread extends Thread implements Runnable
 			Logger.log("");
 			Logger.log("=====WARNING=====");
 			Logger.log("Response code was supposed to be 200, it was "+responseCode);
-			Logger.log("Check your Filelist.ro login data, it might not be correct");
+			Logger.log("Check your filelist.io login data, it might not be correct");
 			Logger.log("=================");
 			Logger.log("");
 			
@@ -453,16 +459,18 @@ public class RunThread extends Thread implements Runnable
 			}
 			else
 			{
-				Logger.log("Failed to log into Filelist.ro with username & password.");
+				Logger.log("Failed to log into filelist.io with username & password.");
 			}
 		}
 		return response.toString();
 	}
 	public void downloadTorrent(String cfduidtmp,String passtmp,String phpsessidtmp,String uidtmp,String downloadLink,File expectedTorrentPath) throws Exception
 	{
-		String request        = "https://filelist.ro/"+downloadLink;
+		String request        = "https://filelist.io/"+downloadLink;
 		URL    url            = new URL( request );
 		HttpsURLConnection conn= (HttpsURLConnection) url.openConnection();    
+		conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
+		conn.setFollowRedirects(true);
 		conn.setDoOutput( true );
 		conn.setInstanceFollowRedirects( false );
 		conn.setRequestMethod( "GET" );
